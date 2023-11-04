@@ -1,11 +1,10 @@
 package Practice_24.Ex_3;
 
 import Practice_24.Ex_3.TextDocument.CreateTextDocument;
-import Practice_24.Ex_3.TextDocument.TextDocument;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class DocumentWorkFrame extends JFrame {
 
@@ -28,8 +27,13 @@ public class DocumentWorkFrame extends JFrame {
         menuItem = new JMenuItem("New");
         menuItem.addActionListener(e -> {
             String name = JOptionPane.showInputDialog("Введите имя файла:");
-            if (name != null && !name.isEmpty())
-                document = createDocument.createNew(PATH + name);
+            if (name != null && !name.isEmpty()) {
+                try {
+                    document = createDocument.createNew(PATH + name);
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
         });
         menu.add(menuItem);
 
@@ -43,7 +47,11 @@ public class DocumentWorkFrame extends JFrame {
 
         menuItem = new JMenuItem("Save");
         menuItem.addActionListener(e -> {
-            document = createDocument.createNew(document.path);
+            try {
+                document = createDocument.createNew(document.getPath());
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
         });
         menu.add(menuItem);
 
