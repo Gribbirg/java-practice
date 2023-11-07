@@ -14,7 +14,7 @@ public class DocumentWorkFrame extends JFrame {
 
     ICreateDocument createDocument = new CreateTextDocument();
 
-    final String PATH = "C:\\Users\\gribk\\IdeaProjects\\GribkovJavaCourse\\src\\Files\\";
+    final String PATH = "C:\\Users\\gribk\\IdeaProjects\\JavaCourse\\src\\Files\\";
 
     public DocumentWorkFrame() {
         super("Работа с документами");
@@ -30,6 +30,8 @@ public class DocumentWorkFrame extends JFrame {
             if (name != null && !name.isEmpty()) {
                 try {
                     document = createDocument.createNew(PATH + name);
+                    document.createEditor(this);
+                    setVisible(true);
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -40,8 +42,15 @@ public class DocumentWorkFrame extends JFrame {
         menuItem = new JMenuItem("Open");
         menuItem.addActionListener(e -> {
             String name = JOptionPane.showInputDialog("Введите имя файла:");
-            if (name != null && !name.isEmpty())
+            if (name != null && !name.isEmpty()) {
                 document = createDocument.createOpen(PATH + name);
+                try {
+                    document.createEditor(this);
+                    setVisible(true);
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
         });
         menu.add(menuItem);
 
