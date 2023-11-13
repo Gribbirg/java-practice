@@ -26,12 +26,13 @@ public class DocumentWorkFrame extends JFrame {
 
         menuItem = new JMenuItem("New");
         menuItem.addActionListener(e -> {
+            if (document != null)
+                closeFile();
             String name = JOptionPane.showInputDialog("Введите имя файла:");
             if (name != null && !name.isEmpty()) {
                 try {
                     document = createDocument.createNew(PATH + name);
                     document.createEditor(this);
-                    setVisible(true);
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -41,12 +42,13 @@ public class DocumentWorkFrame extends JFrame {
 
         menuItem = new JMenuItem("Open");
         menuItem.addActionListener(e -> {
+            if (document != null)
+                closeFile();
             String name = JOptionPane.showInputDialog("Введите имя файла:");
             if (name != null && !name.isEmpty()) {
                 document = createDocument.createOpen(PATH + name);
                 try {
                     document.createEditor(this);
-                    setVisible(true);
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -56,24 +58,31 @@ public class DocumentWorkFrame extends JFrame {
 
         menuItem = new JMenuItem("Save");
         menuItem.addActionListener(e -> {
-            try {
-                document = createDocument.createNew(document.getPath());
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
+            if (document != null) {
+                try {
+                    document.save();
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
             }
         });
         menu.add(menuItem);
 
         menuItem = new JMenuItem("Exit");
-        menuItem.addActionListener(e -> {
-            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-        });
+        menuItem.addActionListener(e -> closeFile());
         menu.add(menuItem);
 
         menuBar.add(menu);
 
         setJMenuBar(menuBar);
         setVisible(true);
+    }
+
+    private void closeFile() {
+        if (document != null) {
+            document.removeEditor(this);
+            document = null;
+        }
     }
 
     public static void main(String[] args) {

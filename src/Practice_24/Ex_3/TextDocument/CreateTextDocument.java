@@ -12,7 +12,12 @@ public class CreateTextDocument implements ICreateDocument {
     @Override
     public IDocument createNew(String path) throws IOException {
         File file = new File(path + ".txt");
-        if(!file.createNewFile()) {
+        if (!file.createNewFile()) {
+            if (file.delete()) {
+                createNew(path);
+            } else {
+                throw new IOException("Can't delete file!");
+            }
         }
         return new TextDocument(file);
     }

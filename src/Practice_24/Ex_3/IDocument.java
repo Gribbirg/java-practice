@@ -9,4 +9,5 @@ public interface IDocument {
     String getPath();
     void save() throws IOException;
     void createEditor(JFrame jFrame) throws IOException;
+    void removeEditor(JFrame jFrame);
 }
