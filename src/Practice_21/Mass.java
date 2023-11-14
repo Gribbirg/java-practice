@@ -48,6 +48,6 @@ public class Mass<T> {
         for (int i = 0; i < mass.getSize(); i++) System.out.println(mass.get(i));
         System.out.println();
 
-        getCatalog("C:\\Users\\gribk\\IdeaProjects\\GribkovJavaCourse\\src");
+        getCatalog("C:\\Users\\gribk\\IdeaProjects\\JavaCourse\\src");
     }
 }
